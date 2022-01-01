@@ -6,10 +6,10 @@ import cv2
 import tensorflow as tf
 from PIL import Image as Img
 def get_embedding(model,face_pixels):
-    # img=cv2.resize(face_pixels,(160,160))
-
-    # img = np.around(np.array(img) / 255.0, decimals=12)
-    # x_train = np.expand_dims(img, axis=0)
+    '''This is a helper function used to convert extracted face ROIs into processed embedding vectors ready for distance measurements.
+    model: Variable storing the model that is to be used to transform our ROIs into embeddings, which in our case would be the FaceNet-128.
+    face_pixels: Variable storing the ROI of a detected face.
+    '''
     img=cv2.cvtColor(face_pixels,cv2.COLOR_BGR2RGB)
     im = Img.fromarray(img, 'RGB')
     #Resizing into dimensions you used
@@ -21,16 +21,42 @@ def get_embedding(model,face_pixels):
     return embedding / np.linalg.norm(embedding, ord=2)
 
 class Track():
+    '''
+    Track class provides us with a rudimentarily organized format for keeping track of the data 
+    related to bounding boxes and ROIs that are to be tracked by its manager class (Tracker).
+    
+    Attributes:
+    
+    tracker: This represents the tracker that is being assigned to track the detections which 
+    in our case is the dlib correlation tracker (dlib.correlation_tracker()) 
+    box: This represents the bounding boxes detected in the form of lists, in the coordinate 
+    format: [startY, startX, endY, endX]
+    recognized_face: A flag used to represent whether a detected face has been recognized or 
+    not, so that the tracked faces arent repeatedly sent into the Siamese Neural Network as
+    input for inference.
+    name: Consists of the identity of the person recognized from database.
+    centroid: Consists of the middle point coordinates of the tracked bounding box.
+    
+    Methods:
+    
+    update_track: Used to predict bounding box of frame through correlation tracking in a 
+    particular frame.
+    face_recognize: This is also a inference function that I previously built in order to 
+    loop over undetected boxes for inference and face recognition, but in this method the 
+    problem was the inputs were not vectorized and CUDA computation was called more times
+    than required.
+    get_box: method used to get coordinates directly from the correlation tracker 
+    predictions.
+    get_centroid: Used to calculate the centroid of bounding boxes being tracked 
+    with the formula: ((startY/2+endY/2),(startX/2+endX/2))
+  
+    '''
     def __init__(self,tracker,box):
         self.tracker=tracker
         self.box=box
         self.recognized_face=False
-        self.encodings=None 
         self.name=None
-        self.prob_face={}
         self.centroid=self.get_centroid()
-        self.rec_count=0
-        #self.spoof_confirm=[]
 
 
     def update_track(self,frame):
@@ -73,7 +99,23 @@ class Track():
 
 
 class Tracker():
-    
+	'''
+	The Tracker class is currently the most crucial component of the whole project as it manages
+	both the tracking of the bounding boxes and the gathering of the bounding boxes that arent 
+	yet recognized into a vectorized format for being inferenced on by the FaceNet-128 model.
+	
+	Initiated with:
+	
+	maxDisappeared: A count of the times a tracked object was not found within the frame which
+	helps us to delete bounding boxes of objects which are no longer within our view.
+	maxDistance: The maximum threshold for the minimum distance metric a tracked centroid can be from a detected centroid before it is no longer considered to be the same 			object.
+	
+	Attributes:
+	
+	
+	
+	
+	'''
     global frame
     
     def __init__(self, maxDisappeared=5,maxDistance=150):
@@ -139,7 +181,7 @@ class Tracker():
         x_train=[]
         t_names=[]
         for t_name,trk in self.objects.items():
-            if trk.name==None:
+            if not trk.recognized_face:
                 starty,startx,endy,endx=trk.box
                 img = image_rgb[starty:endy,startx:endx]
                 im = Img.fromarray(img, 'RGB')
@@ -149,7 +191,7 @@ class Tracker():
                 x_train.append(img_array)
                 t_names.append(t_name)
         x_train=np.array(x_train)
-        if len(x_train)!=0:
+        if x_train:
             embedding_arr = model.predict(x_train)
             for embedding,t_name in zip(embedding_arr,t_names):
                 input_encodings=embedding / np.linalg.norm(embedding, ord=2)
@@ -182,13 +224,6 @@ class Tracker():
                 self.objects[t_name].name=name_
                 self.objects[t_name].recognized_face=True
 
-#     def facecheck_end(self,embedding,t_name):
-#         input_encodings=embedding / np.linalg.norm(embedding, ord=2)
-#         encoding=input_encodings.flatten()
-#         dist_arr=tf.reduce_sum(np.square(face_data['encodings']-encoding),-1).numpy()
-#         if not (dist_arr<0.4).sum()==0: 
-#             self.objects[t_name].name=face_data["names"][np.argmin(dist_arr)]
-#             self.objects[t_name].recognized_face=True
 
     def update(self,frame, coords):            
         if len(coords) == 0:
