@@ -6,8 +6,11 @@ import cv2
 import tensorflow as tf
 from PIL import Image as Img
 def get_embedding(model,face_pixels):
-    '''This is a helper function used to convert extracted face ROIs into processed embedding vectors ready for distance measurements.
-    model: Variable storing the model that is to be used to transform our ROIs into embeddings, which in our case would be the FaceNet-128.
+    '''
+    This is a helper function used to convert extracted face ROIs into processed embedding
+    vectors ready for distance measurements.
+    model: Variable storing the model that is to be used to transform our ROIs into embeddings,
+    which in our case would be the FaceNet-128.
     face_pixels: Variable storing the ROI of a detected face.
     '''
     img=cv2.cvtColor(face_pixels,cv2.COLOR_BGR2RGB)
@@ -28,7 +31,7 @@ class Track():
     Attributes:
     
     tracker: This represents the tracker that is being assigned to track the detections which 
-    in our case is the dlib correlation tracker (dlib.correlation_tracker()) 
+    in our case is the dlib correlation tracker (dlib.correlation_tracker()) [type: 
     box: This represents the bounding boxes detected in the form of lists, in the coordinate 
     format: [startY, startX, endY, endX]
     recognized_face: A flag used to represent whether a detected face has been recognized or 
@@ -106,11 +109,29 @@ class Tracker():
 	
 	Initiated with:
 	
-	maxDisappeared: A count of the times a tracked object was not found within the frame which
-	helps us to delete bounding boxes of objects which are no longer within our view.
-	maxDistance: The maximum threshold for the minimum distance metric a tracked centroid can be from a detected centroid before it is no longer considered to be the same 			object.
+	1) maxDisappeared: A count of the times a tracked object was not found within the frame which
+	   helps us to delete bounding boxes of objects which are no longer within our view.
+	2) maxDistance: The maximum threshold for the minimum distance metric a tracked centroid can be from a detected centroid before it is no longer considered to be the same 			object.
 	
 	Attributes:
+	
+	nextObjectID: an integer that keeps increasing with each new registration of a tracked 
+	bounding box in the tracker manager. It is basically part of the id used to store tracks 
+	into the tracker.objects dictionary.
+	objects: This is a dictionary that stores the current track class objects that exists
+	within the frame being processed.
+	disappeared: a dictionary which stores the count of the consecutive number of times 
+	currently registered track class objects have not been found within the frames being 
+	processed
+	maxDisappeared: The maximum number of times a track object class is allowed to be 
+	marked disappeared before it is deregistered
+	maxDistance: The maximum amount of euclidean distance two centroids of track object 
+	classes are allowed to be within during distance mapping in the update function, 
+	before they are considered to be not the same detected objects.
+	
+	
+	
+	
 	
 	
 	
@@ -126,10 +147,6 @@ class Tracker():
         self.nextObjectID = 0
         self.objects = OrderedDict()
         self.disappeared = OrderedDict()
-        self.count=OrderedDict()
-        # store the number of maximum consecutive frames a given
-        # object is allowed to be marked as "disappeared" until we
-        # need to deregister the object from tracking
         self.maxDisappeared = maxDisappeared
         self.maxDistance=maxDistance
 
