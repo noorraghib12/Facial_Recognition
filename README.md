@@ -32,7 +32,7 @@ There is also an experimental spoof based model trained on camera captured pictu
 ## How to use:
 Directory: 
 
-''''bash
+'''bash
 home/mohammad/Facial_Recognition_Project
 ├── anti_spoofing_model
 │   ├── model.h5
@@ -80,7 +80,7 @@ home/mohammad/Facial_Recognition_Project
     │   └── viz_utils.cpython-38.pyc
     ├── recog_utils.py
     └── viz_utils.py
-''''
+'''
          
 
 
