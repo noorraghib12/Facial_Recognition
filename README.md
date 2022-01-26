@@ -32,55 +32,54 @@ There is also an experimental spoof based model trained on camera captured pictu
 ## How to use:
 Directory: 
 
-'''bash
-home/mohammad/Facial_Recognition_Project
-├── anti_spoofing_model
-│   ├── model.h5
-│   └── model.json
-├── face_detector
-│   ├── deploy.prototxt
-│   └── res10_300x300_ssd_iter_140000.caffemodel
-├── Faces
-│   ├── abba
-│   │   ├── WIN_20211007_21_57_11_Pro.jpg
-│   │   ├── WIN_20211007_21_57_17_Pro.jpg
-│   │   ├── WIN_20211007_21_57_19_Pro.jpg
-│   │   ├── WIN_20211007_21_57_21_Pro.jpg
-│   │   ├── WIN_20211007_21_57_25_Pro.jpg
-│   │   ├── WIN_20211007_21_57_27_Pro.jpg
-│   │   ├── WIN_20211007_21_57_29_Pro.jpg
-│   │   ├── WIN_20211007_21_57_38_Pro.jpg
-│   │   └── WIN_20211007_21_57_40_Pro.jpg
-│   ├── raghib
-│   │   ├── Picture ২০২২-০১-২৪ ০২-৪১-২১.png
-│   │   ├── WIN_20211007_21_52_11_Pro.jpg
-│   │   ├── WIN_20211007_21_52_14_Pro.jpg
-│   │   ├── WIN_20211007_21_52_16_Pro.jpg
-│   │   ├── WIN_20211007_21_52_18_Pro.jpg
-│   │   └── WIN_20211007_21_52_20_Pro.jpg
-│   └── tahmid
-│       ├── WIN_20211125_22_07_04_Pro.jpg
-│       ├── WIN_20211125_22_07_08_Pro.jpg
-│       ├── WIN_20211125_22_07_17_Pro.jpg
-│       ├── WIN_20211125_22_07_24_Pro.jpg
-│       └── WIN_20211125_22_07_25_Pro.jpg
-├── facial_recognition_webcam.py
-├── keras-facenet-h5
-│   ├── model.h5
-│   └── model.json
-└── utils
-    ├── denim_presentation_req.txt
-    ├── face_tracker_dlib.py
-    ├── __pycache__
-    │   ├── face_tracker_dlib.cpython-37.pyc
-    │   ├── face_tracker_dlib.cpython-38.pyc
-    │   ├── recog_utils.cpython-37.pyc
-    │   ├── recog_utils.cpython-38.pyc
-    │   ├── viz_utils.cpython-37.pyc
-    │   └── viz_utils.cpython-38.pyc
-    ├── recog_utils.py
-    └── viz_utils.py
-'''
+
+home/mohammad/Facial_Recognition_Project \
+├── anti_spoofing_model \
+│   ├── model.h5 \
+│   └── model.json \
+├── face_detector \
+│   ├── deploy.prototxt \
+│   └── res10_300x300_ssd_iter_140000.caffemodel \
+├── Faces \
+│   ├── abba \
+│   │   ├── WIN_20211007_21_57_11_Pro.jpg \
+│   │   ├── WIN_20211007_21_57_17_Pro.jpg \
+│   │   ├── WIN_20211007_21_57_19_Pro.jpg \
+│   │   ├── WIN_20211007_21_57_21_Pro.jpg \
+│   │   ├── WIN_20211007_21_57_25_Pro.jpg \
+│   │   ├── WIN_20211007_21_57_27_Pro.jpg \
+│   │   ├── WIN_20211007_21_57_29_Pro.jpg \
+│   │   ├── WIN_20211007_21_57_38_Pro.jpg \
+│   │   └── WIN_20211007_21_57_40_Pro.jpg \
+│   ├── raghib \
+│   │   ├── Picture ২০২২-০১-২৪ ০২-৪১-২১.png \
+│   │   ├── WIN_20211007_21_52_11_Pro.jpg \
+│   │   ├── WIN_20211007_21_52_14_Pro.jpg \
+│   │   ├── WIN_20211007_21_52_16_Pro.jpg \
+│   │   ├── WIN_20211007_21_52_18_Pro.jpg \
+│   │   └── WIN_20211007_21_52_20_Pro.jpg \
+│   └── tahmid \
+│       ├── WIN_20211125_22_07_04_Pro.jpg \
+│       ├── WIN_20211125_22_07_08_Pro.jpg \
+│       ├── WIN_20211125_22_07_17_Pro.jpg \
+│       ├── WIN_20211125_22_07_24_Pro.jpg \
+│       └── WIN_20211125_22_07_25_Pro.jpg \
+├── facial_recognition_webcam.py \
+├── keras-facenet-h5 \
+│   ├── model.h5 \
+│   └── model.json \
+└── utils \
+    ├── face_tracker_dlib.py \
+    ├── __pycache__ \
+    │   ├── face_tracker_dlib.cpython-37.pyc \
+    │   ├── face_tracker_dlib.cpython-38.pyc \
+    │   ├── recog_utils.cpython-37.pyc \
+    │   ├── recog_utils.cpython-38.pyc \
+    │   ├── viz_utils.cpython-37.pyc \
+    │   └── viz_utils.cpython-38.pyc \
+    ├── recog_utils.py \
+    └── viz_utils.py \ 
+    
          
 
 
