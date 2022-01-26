@@ -54,8 +54,8 @@ def raw_face_extract(image,net,embedder):
 def get_image_encoding_dict(face_path,net,embedder):
     encodings=[]
     names=[]
-    for i in glob.glob(face_path+"\\*\\*.jpg"):
-        name=i.split("\\")[-2]
+    for i in glob.glob(face_path+"/*/*.jpg"):
+        name=i.split("/")[-2]
         #print(i)
         img=cv2.imread(i)
         img=imutils.resize(img,width=600)

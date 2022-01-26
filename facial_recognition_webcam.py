@@ -19,26 +19,26 @@ from utils.viz_utils import *
 
 
 #Load Face Embedder
-json_file = open('keras-facenet-h5\\model.json', 'r')
+json_file = open('keras-facenet-h5/model.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 embedder= model_from_json(loaded_model_json)
-embedder.load_weights('keras-facenet-h5\\model.h5')
+embedder.load_weights('keras-facenet-h5/model.h5')
 
 # Load face detector 
 print("[INFO] loading model...")
-prototxt = 'face_detector\\deploy.prototxt'
-model = 'face_detector\\res10_300x300_ssd_iter_140000.caffemodel'
+prototxt = 'face_detector/deploy.prototxt'
+model = 'face_detector/res10_300x300_ssd_iter_140000.caffemodel'
 net = cv2.dnn.readNetFromCaffe(prototxt, model)
 net.setPreferableBackend(cv2.dnn.DNN_BACKEND_CUDA)
 net.setPreferableTarget(cv2.dnn.DNN_TARGET_CUDA)
 
 # Load Liveness Detector
-spoof_json_file = open('anti_spoofing_model\\model.json', 'r')
+spoof_json_file = open('anti_spoofing_model/model.json', 'r')
 loaded_spoof_model_json = spoof_json_file.read()
 spoof_json_file.close()
 spoof_model= model_from_json(loaded_spoof_model_json)
-spoof_model.load_weights('anti_spoofing_model\\model.h5')
+spoof_model.load_weights('anti_spoofing_model/model.h5')
 
 
 #setup webcam facial recognition

@@ -6,13 +6,13 @@ import cv2
 import tensorflow as tf
 from PIL import Image as Img
 def get_embedding(model,face_pixels):
-    '''
-    This is a helper function used to convert extracted face ROIs into processed embedding
-    vectors ready for distance measurements.
-    model: Variable storing the model that is to be used to transform our ROIs into embeddings,
-    which in our case would be the FaceNet-128.
-    face_pixels: Variable storing the ROI of a detected face.
-    '''
+    
+    # This is a helper function used to convert extracted face ROIs into processed embedding
+    # vectors ready for distance measurements.
+    #   model: Variable storing the model that is to be used to transform our ROIs into embeddings,
+    #   which in our case would be the FaceNet-128.
+    #   face_pixels: Variable storing the ROI of a detected face.
+    
     img=cv2.cvtColor(face_pixels,cv2.COLOR_BGR2RGB)
     im = Img.fromarray(img, 'RGB')
     #Resizing into dimensions you used
@@ -24,36 +24,36 @@ def get_embedding(model,face_pixels):
     return embedding / np.linalg.norm(embedding, ord=2)
 
 class Track():
-    '''
-    Track class provides us with a rudimentarily organized format for keeping track of the data 
-    related to bounding boxes and ROIs that are to be tracked by its manager class (Tracker).
     
-    Attributes:
+    # Track class provides us with a rudimentarily organized format for keeping track of the data 
+    # related to bounding boxes and ROIs that are to be tracked by its manager class (Tracker).
     
-    tracker: This represents the tracker that is being assigned to track the detections which 
-    in our case is the dlib correlation tracker (dlib.correlation_tracker()) [type: 
-    box: This represents the bounding boxes detected in the form of lists, in the coordinate 
-    format: [startY, startX, endY, endX]
-    recognized_face: A flag used to represent whether a detected face has been recognized or 
-    not, so that the tracked faces arent repeatedly sent into the Siamese Neural Network as
-    input for inference.
-    name: Consists of the identity of the person recognized from database.
-    centroid: Consists of the middle point coordinates of the tracked bounding box.
+    # Attributes:
     
-    Methods:
+    # tracker: This represents the tracker that is being assigned to track the detections which 
+    # in our case is the dlib correlation tracker (dlib.correlation_tracker()) [type: 
+    # box: This represents the bounding boxes detected in the form of lists, in the coordinate 
+    # format: [startY, startX, endY, endX]
+    # recognized_face: A flag used to represent whether a detected face has been recognized or 
+    # not, so that the tracked faces arent repeatedly sent into the Siamese Neural Network as
+    # input for inference.
+    # name: Consists of the identity of the person recognized from database.
+    # centroid: Consists of the middle point coordinates of the tracked bounding box.
     
-    update_track: Used to predict bounding box of frame through correlation tracking in a 
-    particular frame.
-    face_recognize: This is also a inference function that I previously built in order to 
-    loop over undetected boxes for inference and face recognition, but in this method the 
-    problem was the inputs were not vectorized and CUDA computation was called more times
-    than required.
-    get_box: method used to get coordinates directly from the correlation tracker 
-    predictions.
-    get_centroid: Used to calculate the centroid of bounding boxes being tracked 
-    with the formula: ((startY/2+endY/2),(startX/2+endX/2))
+    # Methods:
+    
+    # update_track: Used to predict bounding box of frame through correlation tracking in a 
+    # particular frame.
+    # face_recognize: This is also a inference function that I previously built in order to 
+    # loop over undetected boxes for inference and face recognition, but in this method the 
+    # problem was the inputs were not vectorized and CUDA computation was called more times
+    # than required.
+    # get_box: method used to get coordinates directly from the correlation tracker 
+    # predictions.
+    # get_centroid: Used to calculate the centroid of bounding boxes being tracked 
+    # with the formula: ((startY/2+endY/2),(startX/2+endX/2))
   
-    '''
+    
     def __init__(self,tracker,box):
         self.tracker=tracker
         self.box=box
@@ -102,42 +102,40 @@ class Track():
 
 
 class Tracker():
-	'''
-	The Tracker class is currently the most crucial component of the whole project as it manages
-	both the tracking of the bounding boxes and the gathering of the bounding boxes that arent 
-	yet recognized into a vectorized format for being inferenced on by the FaceNet-128 model.
 	
-	Initiated with:
+	# The Tracker class is currently the most crucial component of the whole project as it manages
+	# both the tracking of the bounding boxes and the gathering of the bounding boxes that arent 
+	# yet recognized into a vectorized format for being inferenced on by the FaceNet-128 model.
 	
-	1) maxDisappeared: A count of the times a tracked object was not found within the frame which
-	   helps us to delete bounding boxes of objects which are no longer within our view.
-	2) maxDistance: The maximum threshold for the minimum distance metric a tracked centroid can be from a detected centroid before it is no longer considered to be the same 			object.
+	# Initiated with:
 	
-	Attributes:
+	# 1) maxDisappeared: A count of the times a tracked object was not found within the frame which
+	#    helps us to delete bounding boxes of objects which are no longer within our view.
+	# 2) maxDistance: The maximum threshold for the minimum distance metric a tracked centroid can be from a detected centroid before it is no longer considered to be the same 			object.
 	
-	nextObjectID: an integer that keeps increasing with each new registration of a tracked 
-	bounding box in the tracker manager. It is basically part of the id used to store tracks 
-	into the tracker.objects dictionary.
-	objects: This is a dictionary that stores the current track class objects that exists
-	within the frame being processed.
-	disappeared: a dictionary which stores the count of the consecutive number of times 
-	currently registered track class objects have not been found within the frames being 
-	processed
-	maxDisappeared: The maximum number of times a track object class is allowed to be 
-	marked disappeared before it is deregistered
-	maxDistance: The maximum amount of euclidean distance two centroids of track object 
-	classes are allowed to be within during distance mapping in the update function, 
-	before they are considered to be not the same detected objects.
+	# Attributes:
 	
-	
+	# nextObjectID: an integer that keeps increasing with each new registration of a tracked 
+	# bounding box in the tracker manager. It is basically part of the id used to store tracks 
+	# into the tracker.objects dictionary.
+	# objects: This is a dictionary that stores the current track class objects that exists
+	# within the frame being processed.
+	# disappeared: a dictionary which stores the count of the consecutive number of times 
+	# currently registered track class objects have not been found within the frames being 
+	# processed
+	# maxDisappeared: The maximum number of times a track object class is allowed to be 
+	# marked disappeared before it is deregistered
+	# maxDistance: The maximum amount of euclidean distance two centroids of track object 
+	# classes are allowed to be within during distance mapping in the update function, 
+	# before they are considered to be not the same detected objects.
 	
 	
 	
 	
 	
 	
-	'''
-    global frame
+	
+
     
     def __init__(self, maxDisappeared=5,maxDistance=150):
         # initialize the next unique object ID along with two ordered
@@ -208,7 +206,7 @@ class Tracker():
                 x_train.append(img_array)
                 t_names.append(t_name)
         x_train=np.array(x_train)
-        if x_train:
+        if len(x_train)>0:
             embedding_arr = model.predict(x_train)
             for embedding,t_name in zip(embedding_arr,t_names):
                 input_encodings=embedding / np.linalg.norm(embedding, ord=2)
