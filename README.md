@@ -39,7 +39,7 @@ There is also an experimental spoof based model trained on camera captured pictu
 ## How to use:
 Directory Tree: 
 ```bash
-Facial_Recognition_Project
+Facial_Recognition
 ├── anti_spoofing_model
 │   ├── model.h5
 │   └── model.json
@@ -77,6 +77,6 @@ Facial_Recognition_Project
     └── viz_utils.py
 ```
 
-- In order to run the recognition file, on certain faces, one would need to go the ./Faces directory and create folders with names of the faces to be recognized. In each of the folders one would need to paste 7-8 pictures of the individual, taken from different angles. After that running the ./facial_recognition_webcam.py with python should be running just fine ! 
+- In order to run the recognition file, on certain faces, one would need to go the ./Faces directory and create folders with names of the faces to be recognized. In each of the folders one would need to paste 7-8 pictures of the individual, taken from different angles. After that running the ./facial_recognition_webcam.py with python should suffice ! 
 - In the case one might want to use an IP Camera for facial recognition, just swapping the camera index with the accessible RTSP link of the camera in the cv2.VideoCapture function should do the trick !
     
